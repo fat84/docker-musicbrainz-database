@@ -1,0 +1,3 @@
+[submodule "mbslave"]
+	path = mbslave
+	url = https://bitbucket.org/lalinsky/mbslave.git
