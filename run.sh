@@ -1,5 +1,5 @@
 cd mbslave
-sed -i "/token=/token=34WjtNMLtA9h6glaBehZJ1OXH8cf8uc8GpfLn3zr/g"  mbslave.conf 
+sed -i "s/#token=XXX/token=34WjtNMLtA9h6glaBehZJ1OXH8cf8uc8GpfLn3zr/g" mbslave.conf
 
 createuser musicbrainz
 createdb -l C -E UTF-8 -T template0 -O musicbrainz musicbrainz
