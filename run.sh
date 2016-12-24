@@ -1,4 +1,6 @@
 cd mbslave
+cp mbslave.conf.default mbslave.conf
+sed -i "/token=/token=34WjtNMLtA9h6glaBehZJ1OXH8cf8uc8GpfLn3zr/g"  mbslave.conf 
 
 createuser musicbrainz
 createdb -l C -E UTF-8 -T template0 -O musicbrainz musicbrainz
@@ -17,3 +19,16 @@ echo 'CREATE SCHEMA documentation;' | ./mbslave-psql.py -S
 ./mbslave-remap-schema.py <sql/caa/CreateTables.sql | ./mbslave-psql.py
 ./mbslave-remap-schema.py <sql/wikidocs/CreateTables.sql | ./mbslave-psql.py
 ./mbslave-remap-schema.py <sql/documentation/CreateTables.sql | ./mbslave-psql.py
+
+./mbslave-import.py ../mbdump.tar.bz2 ../mbdump-derived.tar.bz2
+
+./mbslave-remap-schema.py <sql/CreatePrimaryKeys.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/statistics/CreatePrimaryKeys.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/caa/CreatePrimaryKeys.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/wikidocs/CreatePrimaryKeys.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/documentation/CreatePrimaryKeys.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/CreateIndexes.sql | grep -v musicbrainz_collate | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/CreateSlaveIndexes.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/statistics/CreateIndexes.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/caa/CreateIndexes.sql | ./mbslave-psql.py
+./mbslave-remap-schema.py <sql/CreateViews.sql | ./mbslave-psql.py
